@@ -4,7 +4,7 @@ from typing import Tuple
 import pandas as pd
 from zenml import step
 
-from src.data_cleaning import DataPreprocessStrategy, DataCleaning, DataDivideStrategy
+from mlops_maker.src.data_cleaning import DataPreprocessStrategy, DataCleaning, DataDivideStrategy
 from typing_extensions import Annotated
 
 
