@@ -9,7 +9,7 @@ from typing_extensions import Annotated
 
 
 @step
-def clean_df(df: pd.DataFrame) -> Tuple[
+def clean_data(df: pd.DataFrame) -> Tuple[
     Annotated[pd.DataFrame, "X_train"],
     Annotated[pd.DataFrame, "X_test"],
     Annotated[pd.Series, "y_train"],
