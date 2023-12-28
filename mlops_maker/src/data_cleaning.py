@@ -1,6 +1,6 @@
 import logging
 from abc import ABC, abstractmethod
-from typing import Union
+from typing import Union, Tuple
 
 import numpy as np
 import pandas as pd
@@ -9,20 +9,45 @@ from sklearn.model_selection import train_test_split
 
 class DataStrategy(ABC):
     """
-    Abstract class defining strategy for handling data
+    Abstract base class defining a common interface for different data handling strategies.
+    This class represents the Strategy interface in the Strategy Design Pattern, allowing
+    for the implementation of various data handling algorithms that can be interchanged
+    within the context class.
     """
 
     @abstractmethod
     def handle_data(self, data: pd.DataFrame) -> Union[pd.DataFrame, pd.Series]:
+        """
+        Abstract method to be implemented by concrete strategy classes.
+        Defines how data should be processed by different strategies.
+
+        Parameters:
+        data (pd.DataFrame): The DataFrame to be processed.
+
+        Returns:
+        Union[pd.DataFrame, pd.Series]: The processed DataFrame or Series.
+        """
         pass
 
 
 class DataPreprocessStrategy(DataStrategy):
     """
-    Strategy for preprocessing data
+    Concrete implementation of the DataStrategy for preprocessing data.
+    This class encapsulates the algorithm for data preprocessing including operations like
+    dropping specific columns, filling missing values, and filtering data types.
+    It's a concrete strategy in the Strategy Design Pattern.
     """
 
     def handle_data(self, data: pd.DataFrame) -> pd.DataFrame:
+        """
+        Implements data preprocessing strategy.
+
+        Parameters:
+        data (pd.DataFrame): The DataFrame to be preprocessed.
+
+        Returns:
+        pd.DataFrame: The preprocessed DataFrame.
+        """
         try:
             data = data.drop(
                 [
@@ -51,9 +76,22 @@ class DataPreprocessStrategy(DataStrategy):
 
 
 class DataDivideStrategy(DataStrategy):
-    """Strategy for dividing data into train and test"""
+    """
+    Concrete implementation of the DataStrategy for dividing data into train and test sets.
+    This class encapsulates the algorithm for splitting the data into training and testing sets.
+    It's another concrete strategy in the Strategy Design Pattern.
+    """
 
-    def handle_data(self, data: pd.DataFrame) -> Union[pd.DataFrame, pd.Series]:
+    def handle_data(self, data: pd.DataFrame) -> Tuple[pd.DataFrame, pd.DataFrame, pd.Series, pd.Series]:
+        """
+        Implements data division strategy.
+
+        Parameters:
+        data (pd.DataFrame): The DataFrame to be split.
+
+        Returns:
+        Tuple[pd.DataFrame, pd.DataFrame, pd.Series, pd.Series]: The training and testing sets.
+        """
         try:
             X = data.drop("review_score", axis=1)
             y = data["review_score"]
@@ -68,14 +106,31 @@ class DataDivideStrategy(DataStrategy):
 
 class DataCleaning:
     """
-    Data cleaning class which preprocesses the data and divides it into train and test data.
+    Context class in the Strategy Design Pattern which is configured with a DataStrategy object.
+    This class is responsible for delegating the data handling to the current strategy object 
+    and can switch strategies dynamically at runtime.
+
+    Attributes:
+    df (pd.DataFrame): The DataFrame to be processed.
+    strategy (DataStrategy): The current strategy for processing the data.
     """
 
     def __init__(self, data: pd.DataFrame, strategy: DataStrategy) -> None:
-        """Initializes the DataCleaning class with a specific strategy."""
+        """
+        Initializes the DataCleaning class with a specific data handling strategy.
+
+        Parameters:
+        data (pd.DataFrame): The DataFrame to be processed.
+        strategy (DataStrategy): The strategy to use for processing the data.
+        """
         self.df = data
         self.strategy = strategy
 
     def handle_data(self) -> Union[pd.DataFrame, pd.Series]:
-        """Handle data based on the provided strategy"""
+        """
+        Processes the data using the current strategy.
+
+        Returns:
+        Union[pd.DataFrame, pd.Series]: The processed data.
+        """
         return self.strategy.handle_data(self.df)
