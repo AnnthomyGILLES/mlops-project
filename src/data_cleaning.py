@@ -59,10 +59,18 @@ class DataPreprocessStrategy(DataStrategy):
                 ],
                 axis=1,
             )
-            data["product_weight_g"].fillna(data["product_weight_g"].median(), inplace=True)
-            data["product_length_cm"].fillna(data["product_length_cm"].median(), inplace=True)
-            data["product_height_cm"].fillna(data["product_height_cm"].median(), inplace=True)
-            data["product_width_cm"].fillna(data["product_width_cm"].median(), inplace=True)
+            data["product_weight_g"].fillna(
+                data["product_weight_g"].median(), inplace=True
+            )
+            data["product_length_cm"].fillna(
+                data["product_length_cm"].median(), inplace=True
+            )
+            data["product_height_cm"].fillna(
+                data["product_height_cm"].median(), inplace=True
+            )
+            data["product_width_cm"].fillna(
+                data["product_width_cm"].median(), inplace=True
+            )
             # write "No review" in review_comment_message column
             data["review_comment_message"].fillna("No review", inplace=True)
             data = data.select_dtypes(include=[np.number])
@@ -82,7 +90,9 @@ class DataDivideStrategy(DataStrategy):
     It's another concrete strategy in the Strategy Design Pattern.
     """
 
-    def handle_data(self, data: pd.DataFrame) -> Tuple[pd.DataFrame, pd.DataFrame, pd.Series, pd.Series]:
+    def handle_data(
+            self, data: pd.DataFrame
+    ) -> Tuple[pd.DataFrame, pd.DataFrame, pd.Series, pd.Series]:
         """
         Implements data division strategy.
 
@@ -107,7 +117,7 @@ class DataDivideStrategy(DataStrategy):
 class DataCleaning:
     """
     Context class in the Strategy Design Pattern which is configured with a DataStrategy object.
-    This class is responsible for delegating the data handling to the current strategy object 
+    This class is responsible for delegating the data handling to the current strategy object
     and can switch strategies dynamically at runtime.
 
     Attributes:
