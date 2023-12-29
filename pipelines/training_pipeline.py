@@ -15,4 +15,4 @@ def train_pipeline(data_path: str):
 
 
 if __name__ == "__main__":
-    train_pipeline(data_path=r"/data/olist_customers_dataset.csv")
+    train_pipeline(data_path=r"/data/raw/olist_customers_dataset.csv")
