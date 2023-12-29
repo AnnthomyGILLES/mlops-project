@@ -55,7 +55,8 @@ to [launch the ZenML Server and Dashboard locally](https://docs.zenml.io/user-gu
 but first you must install the optional dependencies for the ZenML server:
 
 ```bash
-pip install zenml["server"]zenml up
+poetry add zenml["server"]
+zenml up
 ```
 
 If you are running the `run_deployment.py` script, you will also need to install some integrations using ZenML:
