@@ -1,4 +1,5 @@
 import logging
+from typing import Tuple
 
 import mlflow
 import pandas as pd
@@ -6,9 +7,8 @@ from sklearn.base import RegressorMixin
 from typing_extensions import Annotated
 from zenml import step
 from zenml.client import Client
-from typing import Tuple
 
-from mlops_maker.src.evaluation import MSE, R2Score, RMSE
+from src.evaluation import MSE, R2Score, RMSE
 
 experiment_tracker = Client().active_stack.experiment_tracker
 
@@ -16,7 +16,9 @@ experiment_tracker = Client().active_stack.experiment_tracker
 @step(experiment_tracker=experiment_tracker.name)
 def evaluate_model(
         model: RegressorMixin, x_test: pd.DataFrame, y_test: pd.Series
-) -> Tuple[Annotated[float, "mse"], Annotated[float, "r2_score"], Annotated[float, "rmse"]]:
+) -> Tuple[
+    Annotated[float, "mse"], Annotated[float, "r2_score"], Annotated[float, "rmse"]
+]:
     """
     Args:
         model: RegressorMixin
@@ -27,7 +29,6 @@ def evaluate_model(
         rmse: float
     """
     try:
-
         prediction = model.predict(x_test)
 
         # Using the MSE class for mean squared error calculation
@@ -51,5 +52,5 @@ def evaluate_model(
         raise e
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     print("ok")

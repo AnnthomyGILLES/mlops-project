@@ -2,14 +2,16 @@ import logging
 from typing import Tuple
 
 import pandas as pd
+from typing_extensions import Annotated
 from zenml import step
 
-from mlops_maker.src.data_cleaning import DataPreprocessStrategy, DataCleaning, DataDivideStrategy
-from typing_extensions import Annotated
+from src.data_cleaning import DataPreprocessStrategy, DataCleaning, DataDivideStrategy
 
 
 @step
-def clean_data(df: pd.DataFrame) -> Tuple[
+def clean_data(
+        df: pd.DataFrame,
+) -> Tuple[
     Annotated[pd.DataFrame, "X_train"],
     Annotated[pd.DataFrame, "X_test"],
     Annotated[pd.Series, "y_train"],
