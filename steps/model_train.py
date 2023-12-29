@@ -6,7 +6,7 @@ from sklearn.base import RegressorMixin
 from zenml import step
 from zenml.client import Client
 
-from src.model_dev import LinearRegressionModel
+from src.train_model import LinearRegressionModel
 from . import config
 from .config import ModelNameConfig
 
